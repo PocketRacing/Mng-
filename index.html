@@ -1,0 +1,1514 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Kartaviy Project Studio</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#090b10;
+    color:#fff;
+}
+
+button,input,textarea,select{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+.app{
+    min-height:100vh;
+    display:flex;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    width:260px;
+    background:#10131a;
+    border-right:1px solid #242936;
+    padding:20px;
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
+    overflow:auto;
+}
+
+.logo{
+    font-size:23px;
+    font-weight:bold;
+    margin-bottom:25px;
+}
+
+.logo span{
+    color:#7c5cff;
+}
+
+.menu-title{
+    color:#777f91;
+    font-size:12px;
+    text-transform:uppercase;
+    margin:20px 0 8px;
+}
+
+.menu button{
+    width:100%;
+    padding:12px;
+    margin-bottom:6px;
+    border:0;
+    border-radius:10px;
+    background:transparent;
+    color:#dce0e8;
+    text-align:left;
+}
+
+.menu button:hover,
+.menu button.active{
+    background:#1d2230;
+    color:#fff;
+}
+
+/* MAIN */
+
+.main{
+    margin-left:260px;
+    width:calc(100% - 260px);
+    min-height:100vh;
+}
+
+.topbar{
+    height:70px;
+    padding:0 25px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border-bottom:1px solid #242936;
+    background:#0d1016;
+}
+
+.content{
+    padding:30px;
+    max-width:1250px;
+    margin:auto;
+}
+
+h1{
+    margin-top:0;
+}
+
+.subtitle{
+    color:#858da0;
+}
+
+/* BUTTONS */
+
+.primary{
+    background:#7c5cff;
+    color:#fff;
+    border:0;
+    border-radius:10px;
+    padding:12px 18px;
+    font-weight:bold;
+}
+
+.primary:hover{
+    background:#6848e8;
+}
+
+.secondary{
+    background:#191e29;
+    color:#fff;
+    border:1px solid #2c3342;
+    border-radius:10px;
+    padding:11px 16px;
+}
+
+.danger{
+    background:#3a1820;
+    color:#ff8e9d;
+    border:1px solid #6a2633;
+    border-radius:10px;
+    padding:10px 14px;
+}
+
+/* CARDS */
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+    gap:16px;
+    margin-top:25px;
+}
+
+.card{
+    background:#11151d;
+    border:1px solid #252b38;
+    border-radius:15px;
+    padding:18px;
+}
+
+.card:hover{
+    border-color:#51418e;
+}
+
+.project-card{
+    cursor:pointer;
+}
+
+.project-icon{
+    width:48px;
+    height:48px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#211d35;
+    border-radius:12px;
+    font-size:24px;
+    margin-bottom:14px;
+}
+
+.card h3{
+    margin:5px 0 8px;
+}
+
+.small{
+    color:#80899b;
+    font-size:13px;
+}
+
+.tag{
+    display:inline-block;
+    background:#201d31;
+    color:#b9aaff;
+    padding:5px 8px;
+    border-radius:7px;
+    font-size:12px;
+    margin:3px 3px 0 0;
+}
+
+/* MODAL */
+
+.modal-bg{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.72);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    z-index:100;
+}
+
+.modal{
+    width:100%;
+    max-width:600px;
+    background:#11151d;
+    border:1px solid #303747;
+    border-radius:18px;
+    padding:25px;
+    max-height:90vh;
+    overflow:auto;
+}
+
+.modal h2{
+    margin-top:0;
+}
+
+label{
+    display:block;
+    color:#9da5b5;
+    font-size:13px;
+    margin:14px 0 7px;
+}
+
+input,textarea,select{
+    width:100%;
+    background:#0a0d12;
+    border:1px solid #2b3240;
+    color:#fff;
+    border-radius:9px;
+    padding:12px;
+    outline:none;
+}
+
+textarea{
+    min-height:120px;
+    resize:vertical;
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+    border-color:#7c5cff;
+}
+
+.modal-actions{
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+    margin-top:20px;
+}
+
+/* PROJECT */
+
+.project-header{
+    background:#11151d;
+    border:1px solid #252b38;
+    border-radius:16px;
+    padding:22px;
+    margin-bottom:20px;
+}
+
+.project-title-row{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.project-big-icon{
+    width:60px;
+    height:60px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#211d35;
+    border-radius:15px;
+    font-size:30px;
+}
+
+.project-actions{
+    margin-top:18px;
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+.section-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(190px,1fr));
+    gap:12px;
+}
+
+.section{
+    background:#11151d;
+    border:1px solid #252b38;
+    padding:18px;
+    border-radius:13px;
+    cursor:pointer;
+}
+
+.section:hover{
+    border-color:#7c5cff;
+    transform:translateY(-1px);
+}
+
+.section-icon{
+    font-size:25px;
+    margin-bottom:12px;
+}
+
+/* EDITOR */
+
+.editor{
+    background:#11151d;
+    border:1px solid #252b38;
+    border-radius:16px;
+    padding:20px;
+}
+
+.back{
+    margin-bottom:20px;
+}
+
+.empty{
+    text-align:center;
+    padding:60px 20px;
+    color:#778093;
+}
+
+/* MOBILE */
+
+@media(max-width:800px){
+    .sidebar{
+        width:70px;
+        padding:12px 8px;
+    }
+
+    .logo{
+        font-size:0;
+        text-align:center;
+    }
+
+    .logo span{
+        font-size:22px;
+    }
+
+    .menu-title{
+        display:none;
+    }
+
+    .menu button{
+        font-size:0;
+        text-align:center;
+        padding:13px 4px;
+    }
+
+    .menu button:first-letter{
+        font-size:20px;
+    }
+
+    .main{
+        margin-left:70px;
+        width:calc(100% - 70px);
+    }
+
+    .content{
+        padding:18px;
+    }
+
+    .topbar{
+        padding:0 15px;
+    }
+
+    .topbar h2{
+        font-size:17px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<aside class="sidebar">
+
+    <div class="logo">
+        K<span>PS</span>
+    </div>
+
+    <div class="menu">
+
+        <div class="menu-title">Навигация</div>
+
+        <button onclick="showHome()">🏠 Главная</button>
+        <button onclick="showProjects()">📁 Проекты</button>
+        <button onclick="showGenres()">🎮 Жанры</button>
+
+        <div class="menu-title">Инструменты</div>
+
+        <button onclick="showTemplates()">🧩 Шаблоны</button>
+        <button onclick="showHelp()">🤖 Помощник</button>
+
+        <div class="menu-title">Данные</div>
+
+        <button onclick="exportAll()">💾 Экспорт</button>
+        <button onclick="document.getElementById('importFile').click()">📥 Импорт</button>
+
+    </div>
+
+</aside>
+
+<main class="main">
+
+<header class="topbar">
+    <h2 id="topTitle">Главная</h2>
+    <button class="primary" onclick="openProjectModal()">＋ Новый проект</button>
+</header>
+
+<section class="content" id="content"></section>
+
+</main>
+
+</div>
+
+<input
+    type="file"
+    id="importFile"
+    accept=".json"
+    style="display:none"
+    onchange="importData(event)"
+>
+
+<!-- PROJECT MODAL -->
+
+<div class="modal-bg" id="projectModal">
+
+<div class="modal">
+
+<h2>🎮 Новый проект</h2>
+
+<label>Название проекта</label>
+<input id="projectName" placeholder="Например: Wild West">
+
+<label>Описание</label>
+<textarea id="projectDescription"
+placeholder="О чём будет проект?"></textarea>
+
+<label>Жанр</label>
+<select id="projectGenre"></select>
+
+<label>Платформа</label>
+<select id="projectPlatform">
+    <option>ПК</option>
+    <option>Телефон</option>
+    <option>Браузер</option>
+    <option>ПК + Телефон</option>
+</select>
+
+<label>Ориентация</label>
+<select id="projectOrientation">
+    <option>Горизонтальная</option>
+    <option>Вертикальная</option>
+    <option>Адаптивная</option>
+</select>
+
+<label>Статус</label>
+<select id="projectStatus">
+    <option>Идея</option>
+    <option>Разработка</option>
+    <option>Тестирование</option>
+    <option>Готово</option>
+</select>
+
+<div class="modal-actions">
+    <button class="secondary" onclick="closeProjectModal()">Отмена</button>
+    <button class="primary" onclick="createProject()">Создать</button>
+</div>
+
+</div>
+</div>
+
+<!-- GENRE MODAL -->
+
+<div class="modal-bg" id="genreModal">
+
+<div class="modal">
+
+<h2>🎮 Новый жанр</h2>
+
+<label>Название</label>
+<input id="genreName" placeholder="Например: Криминальный симулятор">
+
+<div class="modal-actions">
+    <button class="secondary" onclick="closeGenreModal()">Отмена</button>
+    <button class="primary" onclick="createGenre()">Добавить</button>
+</div>
+
+</div>
+</div>
+
+<script>
+
+/* =========================
+   DATA
+========================= */
+
+let data = JSON.parse(localStorage.getItem("kartaviyProjectStudio")) || {
+
+    genres:[
+        "RPG",
+        "Симулятор",
+        "Стратегия",
+        "Экшен",
+        "Хоррор",
+        "Выживание",
+        "Казуальная"
+    ],
+
+    projects:[]
+
+};
+
+let currentProject = null;
+
+const sections = [
+
+    ["📋","Обзор"],
+    ["📖","Сюжет"],
+    ["👤","Персонажи"],
+    ["🗺️","Мир"],
+    ["🎯","Задания"],
+    ["🔫","Оружие"],
+    ["🐎","Транспорт"],
+    ["🏪","Магазины"],
+    ["💰","Экономика"],
+    ["🎒","Предметы"],
+    ["🎵","Музыка"],
+    ["🖼️","Ресурсы"],
+    ["💻","Код"],
+    ["⚙️","Настройки"]
+
+];
+
+/* =========================
+   SAVE
+========================= */
+
+function save(){
+
+    localStorage.setItem(
+        "kartaviyProjectStudio",
+        JSON.stringify(data)
+    );
+
+}
+
+/* =========================
+   HOME
+========================= */
+
+function showHome(){
+
+    currentProject=null;
+
+    document.getElementById("topTitle").textContent="Главная";
+
+    document.getElementById("content").innerHTML=`
+
+        <h1>Kartaviy Project Studio</h1>
+
+        <p class="subtitle">
+            Создавай и храни свои игровые проекты прямо в браузере.
+        </p>
+
+        <div class="grid">
+
+            <div class="card">
+                <div class="project-icon">🎮</div>
+                <h3>${data.projects.length}</h3>
+                <div class="small">Проектов</div>
+            </div>
+
+            <div class="card">
+                <div class="project-icon">🏷️</div>
+                <h3>${data.genres.length}</h3>
+                <div class="small">Жанров</div>
+            </div>
+
+            <div class="card">
+                <div class="project-icon">💾</div>
+                <h3>Локально</h3>
+                <div class="small">Данные хранятся в браузере</div>
+            </div>
+
+        </div>
+
+        <div class="card" style="margin-top:20px">
+
+            <h2>🚀 Быстрый старт</h2>
+
+            <p class="subtitle">
+                Создай первый проект, выбери жанр и начинай
+                заполнять его разделы.
+            </p>
+
+            <button class="primary" onclick="openProjectModal()">
+                ＋ Создать проект
+            </button>
+
+        </div>
+    `;
+
+}
+
+/* =========================
+   PROJECTS
+========================= */
+
+function showProjects(){
+
+    currentProject=null;
+
+    document.getElementById("topTitle").textContent="Проекты";
+
+    let html=`
+
+        <h1>Мои проекты</h1>
+
+        <p class="subtitle">
+            Все проекты находятся прямо в этом браузере.
+        </p>
+
+    `;
+
+    if(!data.projects.length){
+
+        html+=`
+            <div class="empty">
+                <h2>Пока нет проектов</h2>
+                <p>Создай свой первый проект.</p>
+                <button class="primary" onclick="openProjectModal()">
+                    ＋ Новый проект
+                </button>
+            </div>
+        `;
+
+    }else{
+
+        html+=`<div class="grid">`;
+
+        data.projects.forEach((p,index)=>{
+
+            html+=`
+
+            <div class="card project-card"
+                 onclick="openProject(${index})">
+
+                <div class="project-icon">🎮</div>
+
+                <h3>${escapeHTML(p.name)}</h3>
+
+                <p class="small">
+                    ${escapeHTML(p.description || "Без описания")}
+                </p>
+
+                <span class="tag">
+                    ${escapeHTML(p.genre)}
+                </span>
+
+                <span class="tag">
+                    ${escapeHTML(p.status)}
+                </span>
+
+            </div>
+
+            `;
+
+        });
+
+        html+=`</div>`;
+
+    }
+
+    document.getElementById("content").innerHTML=html;
+
+}
+
+/* =========================
+   CREATE PROJECT
+========================= */
+
+function openProjectModal(){
+
+    updateGenreSelect();
+
+    document.getElementById("projectModal").style.display="flex";
+
+}
+
+function closeProjectModal(){
+
+    document.getElementById("projectModal").style.display="none";
+
+}
+
+function updateGenreSelect(){
+
+    const select=document.getElementById("projectGenre");
+
+    select.innerHTML=data.genres.map(
+        g=>`<option>${escapeHTML(g)}</option>`
+    ).join("");
+
+}
+
+function createProject(){
+
+    const name=document.getElementById("projectName").value.trim();
+
+    if(!name){
+
+        alert("Введите название проекта.");
+
+        return;
+
+    }
+
+    const project={
+
+        id:Date.now(),
+
+        name:name,
+
+        description:
+            document.getElementById("projectDescription").value.trim(),
+
+        genre:
+            document.getElementById("projectGenre").value,
+
+        platform:
+            document.getElementById("projectPlatform").value,
+
+        orientation:
+            document.getElementById("projectOrientation").value,
+
+        status:
+            document.getElementById("projectStatus").value,
+
+        sections:{}
+
+    };
+
+    data.projects.push(project);
+
+    save();
+
+    document.getElementById("projectName").value="";
+    document.getElementById("projectDescription").value="";
+
+    closeProjectModal();
+
+    openProject(data.projects.length-1);
+
+}
+
+/* =========================
+   OPEN PROJECT
+========================= */
+
+function openProject(index){
+
+    currentProject=index;
+
+    const p=data.projects[index];
+
+    document.getElementById("topTitle").textContent=p.name;
+
+    let html=`
+
+        <button class="secondary back" onclick="showProjects()">
+            ← Все проекты
+        </button>
+
+        <div class="project-header">
+
+            <div class="project-title-row">
+
+                <div class="project-big-icon">🎮</div>
+
+                <div>
+
+                    <h1>${escapeHTML(p.name)}</h1>
+
+                    <div class="small">
+                        ${escapeHTML(p.genre)}
+                        ·
+                        ${escapeHTML(p.platform)}
+                        ·
+                        ${escapeHTML(p.status)}
+                    </div>
+
+                </div>
+
+            </div>
+
+            <p class="subtitle">
+                ${escapeHTML(p.description || "Описание отсутствует")}
+            </p>
+
+            <div class="project-actions">
+
+                <button class="secondary"
+                        onclick="showProjectInfo()">
+                    📋 Информация
+                </button>
+
+                <button class="secondary"
+                        onclick="exportProject()">
+                    💾 Сохранить проект
+                </button>
+
+                <button class="danger"
+                        onclick="deleteProject()">
+                    🗑️ Удалить
+                </button>
+
+            </div>
+
+        </div>
+
+        <h2>Разделы проекта</h2>
+
+        <div class="section-grid">
+
+    `;
+
+    sections.forEach(s=>{
+
+        html+=`
+
+            <div class="section"
+                 onclick="openSection('${s[1]}')">
+
+                <div class="section-icon">${s[0]}</div>
+
+                <strong>${s[1]}</strong>
+
+                <div class="small">
+                    ${p.sections[s[1]]
+                        ? "Есть данные"
+                        : "Пусто"}
+                </div>
+
+            </div>
+
+        `;
+
+    });
+
+    html+=`</div>`;
+
+    document.getElementById("content").innerHTML=html;
+
+}
+
+/* =========================
+   SECTION EDITOR
+========================= */
+
+function openSection(name){
+
+    const p=data.projects[currentProject];
+
+    const saved=p.sections[name] || "";
+
+    document.getElementById("topTitle").textContent=name;
+
+    document.getElementById("content").innerHTML=`
+
+        <button class="secondary back"
+                onclick="openProject(${currentProject})">
+            ← Назад в проект
+        </button>
+
+        <div class="editor">
+
+            <h1>${name}</h1>
+
+            <p class="subtitle">
+                Здесь можно вручную описывать содержимое раздела.
+            </p>
+
+            <textarea id="sectionText"
+            placeholder="Пиши здесь всё, что относится к разделу...">${escapeHTML(saved)}</textarea>
+
+            <div style="margin-top:15px;display:flex;gap:8px;flex-wrap:wrap">
+
+                <button class="primary"
+                        onclick="saveSection('${name}')">
+                    💾 Сохранить
+                </button>
+
+                <button class="secondary"
+                        onclick="openProject(${currentProject})">
+                    Отмена
+                </button>
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+function saveSection(name){
+
+    const text=document.getElementById("sectionText").value;
+
+    data.projects[currentProject].sections[name]=text;
+
+    save();
+
+    alert("Раздел сохранён!");
+
+    openProject(currentProject);
+
+}
+
+/* =========================
+   PROJECT INFO
+========================= */
+
+function showProjectInfo(){
+
+    const p=data.projects[currentProject];
+
+    document.getElementById("content").innerHTML=`
+
+        <button class="secondary back"
+                onclick="openProject(${currentProject})">
+            ← Назад
+        </button>
+
+        <div class="editor">
+
+            <h1>📋 Информация</h1>
+
+            <label>Название</label>
+            <input id="editName"
+                   value="${escapeHTML(p.name)}">
+
+            <label>Описание</label>
+            <textarea id="editDescription">${escapeHTML(p.description)}</textarea>
+
+            <label>Жанр</label>
+            <select id="editGenre">
+
+                ${data.genres.map(g=>
+                    `<option ${g===p.genre?"selected":""}>
+                        ${escapeHTML(g)}
+                    </option>`
+                ).join("")}
+
+            </select>
+
+            <label>Платформа</label>
+
+            <select id="editPlatform">
+                ${[
+                    "ПК",
+                    "Телефон",
+                    "Браузер",
+                    "ПК + Телефон"
+                ].map(x=>
+                    `<option ${x===p.platform?"selected":""}>
+                        ${x}
+                    </option>`
+                ).join("")}
+            </select>
+
+            <label>Статус</label>
+
+            <select id="editStatus">
+                ${[
+                    "Идея",
+                    "Разработка",
+                    "Тестирование",
+                    "Готово"
+                ].map(x=>
+                    `<option ${x===p.status?"selected":""}>
+                        ${x}
+                    </option>`
+                ).join("")}
+            </select>
+
+            <br><br>
+
+            <button class="primary"
+                    onclick="saveProjectInfo()">
+                💾 Сохранить изменения
+            </button>
+
+        </div>
+
+    `;
+
+}
+
+function saveProjectInfo(){
+
+    const p=data.projects[currentProject];
+
+    p.name=document.getElementById("editName").value.trim();
+    p.description=document.getElementById("editDescription").value;
+    p.genre=document.getElementById("editGenre").value;
+    p.platform=document.getElementById("editPlatform").value;
+    p.status=document.getElementById("editStatus").value;
+
+    save();
+
+    openProject(currentProject);
+
+}
+
+/* =========================
+   DELETE
+========================= */
+
+function deleteProject(){
+
+    const p=data.projects[currentProject];
+
+    if(!confirm(
+        `Удалить проект «${p.name}»?`
+    )) return;
+
+    data.projects.splice(currentProject,1);
+
+    save();
+
+    showProjects();
+
+}
+
+/* =========================
+   GENRES
+========================= */
+
+function showGenres(){
+
+    currentProject=null;
+
+    document.getElementById("topTitle").textContent="Жанры";
+
+    let html=`
+
+        <h1>🎮 Жанры</h1>
+
+        <p class="subtitle">
+            Создавай свои собственные жанры для проектов.
+        </p>
+
+        <button class="primary"
+                onclick="openGenreModal()">
+            ＋ Новый жанр
+        </button>
+
+        <div class="grid">
+
+    `;
+
+    data.genres.forEach((g,index)=>{
+
+        html+=`
+
+            <div class="card">
+
+                <h3>${escapeHTML(g)}</h3>
+
+                <p class="small">
+                    Пользовательский жанр
+                </p>
+
+                <button class="danger"
+                        onclick="deleteGenre(${index})">
+                    Удалить
+                </button>
+
+            </div>
+
+        `;
+
+    });
+
+    html+=`</div>`;
+
+    document.getElementById("content").innerHTML=html;
+
+}
+
+function openGenreModal(){
+
+    document.getElementById("genreModal").style.display="flex";
+
+}
+
+function closeGenreModal(){
+
+    document.getElementById("genreModal").style.display="none";
+
+}
+
+function createGenre(){
+
+    const input=document.getElementById("genreName");
+
+    const name=input.value.trim();
+
+    if(!name){
+
+        alert("Введите название жанра.");
+
+        return;
+
+    }
+
+    if(data.genres.includes(name)){
+
+        alert("Такой жанр уже существует.");
+
+        return;
+
+    }
+
+    data.genres.push(name);
+
+    save();
+
+    input.value="";
+
+    closeGenreModal();
+
+    showGenres();
+
+}
+
+function deleteGenre(index){
+
+    const genre=data.genres[index];
+
+    if(!confirm(`Удалить жанр «${genre}»?`))
+        return;
+
+    data.genres.splice(index,1);
+
+    save();
+
+    showGenres();
+
+}
+
+/* =========================
+   TEMPLATES
+========================= */
+
+function showTemplates(){
+
+    currentProject=null;
+
+    document.getElementById("topTitle").textContent="Шаблоны";
+
+    document.getElementById("content").innerHTML=`
+
+        <h1>🧩 Шаблоны</h1>
+
+        <p class="subtitle">
+            Быстрый старт для новых проектов.
+        </p>
+
+        <div class="grid">
+
+            <div class="card">
+
+                <div class="project-icon">🤠</div>
+
+                <h3>Wild West</h3>
+
+                <p class="small">
+                    Дикий Запад, ковбои, города,
+                    задания и открытый мир.
+                </p>
+
+                <button class="primary"
+                        onclick="createFromTemplate('Wild West','Экшен')">
+                    Создать
+                </button>
+
+            </div>
+
+            <div class="card">
+
+                <div class="project-icon">🏥</div>
+
+                <h3>Медицинский симулятор</h3>
+
+                <p class="small">
+                    Пациенты, отделения,
+                    диагностика и задания.
+                </p>
+
+                <button class="primary"
+                        onclick="createFromTemplate('Medical Simulator','Симулятор')">
+                    Создать
+                </button>
+
+            </div>
+
+            <div class="card">
+
+                <div class="project-icon">🏙️</div>
+
+                <h3>Городской симулятор</h3>
+
+                <p class="small">
+                    Город, здания, жители,
+                    работа и экономика.
+                </p>
+
+                <button class="primary"
+                        onclick="createFromTemplate('Kartaviy City','Симулятор')">
+                    Создать
+                </button>
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+function createFromTemplate(name,genre){
+
+    const project={
+
+        id:Date.now(),
+
+        name:name,
+
+        description:"Проект создан на основе шаблона.",
+
+        genre:data.genres.includes(genre)
+            ? genre
+            : data.genres[0],
+
+        platform:"ПК + Телефон",
+
+        orientation:"Адаптивная",
+
+        status:"Идея",
+
+        sections:{}
+
+    };
+
+    data.projects.push(project);
+
+    save();
+
+    openProject(data.projects.length-1);
+
+}
+
+/* =========================
+   HELPER
+========================= */
+
+function showHelp(){
+
+    currentProject=null;
+
+    document.getElementById("topTitle").textContent="Помощник";
+
+    document.getElementById("content").innerHTML=`
+
+        <h1>🤖 Помощник проекта</h1>
+
+        <p class="subtitle">
+            Пока это офлайн-панель для подготовки идей.
+            Позже сюда можно подключить настоящий ИИ.
+        </p>
+
+        <div class="card">
+
+            <h3>Что можно сделать?</h3>
+
+            <div class="grid">
+
+                <div class="card">
+                    💡 Придумать идею
+                </div>
+
+                <div class="card">
+                    👤 Создать персонажа
+                </div>
+
+                <div class="card">
+                    🎯 Придумать задание
+                </div>
+
+                <div class="card">
+                    🗺️ Создать локацию
+                </div>
+
+                <div class="card">
+                    🎒 Создать предмет
+                </div>
+
+                <div class="card">
+                    💻 Помочь с кодом
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="editor" style="margin-top:20px">
+
+            <h2>Запрос</h2>
+
+            <textarea id="assistantInput"
+                placeholder="Например: придумай игру про Дикий Запад..."></textarea>
+
+            <button class="primary"
+                    style="margin-top:12px"
+                    onclick="offlineAssistant()">
+                🤖 Обработать
+            </button>
+
+            <div id="assistantResult"
+                 style="margin-top:20px"></div>
+
+        </div>
+
+    `;
+
+}
+
+function offlineAssistant(){
+
+    const input=document
+        .getElementById("assistantInput")
+        .value
+        .trim();
+
+    if(!input){
+
+        alert("Напиши запрос.");
+
+        return;
+
+    }
+
+    document.getElementById("assistantResult").innerHTML=`
+
+        <div class="card">
+
+            <h3>💡 Идея для проекта</h3>
+
+            <p>
+                Запрос принят. В офлайн-режиме можно использовать
+                встроенные шаблоны и генераторы.
+            </p>
+
+            <p class="small">
+                Для полноценного ИИ-помощника позже можно подключить
+                онлайн-модель или локальную модель.
+            </p>
+
+        </div>
+
+    `;
+
+}
+
+/* =========================
+   EXPORT
+========================= */
+
+function exportAll(){
+
+    const blob=new Blob(
+        [JSON.stringify(data,null,2)],
+        {type:"application/json"}
+    );
+
+    const a=document.createElement("a");
+
+    a.href=URL.createObjectURL(blob);
+
+    a.download="Kartaviy_Project_Studio.json";
+
+    a.click();
+
+    URL.revokeObjectURL(a.href);
+
+}
+
+function exportProject(){
+
+    const p=data.projects[currentProject];
+
+    const blob=new Blob(
+        [JSON.stringify(p,null,2)],
+        {type:"application/json"}
+    );
+
+    const a=document.createElement("a");
+
+    a.href=URL.createObjectURL(blob);
+
+    a.download=
+        p.name.replace(/[^\wа-яА-ЯёЁ -]/g,"_")
+        +".json";
+
+    a.click();
+
+    URL.revokeObjectURL(a.href);
+
+}
+
+/* =========================
+   IMPORT
+========================= */
+
+function importData(event){
+
+    const file=event.target.files[0];
+
+    if(!file) return;
+
+    const reader=new FileReader();
+
+    reader.onload=function(){
+
+        try{
+
+            const imported=JSON.parse(reader.result);
+
+            if(imported.projects &&
+               imported.genres){
+
+                data=imported;
+
+                save();
+
+                showHome();
+
+                alert("Данные успешно импортированы!");
+
+            }else{
+
+                alert("Неверный файл проекта.");
+
+            }
+
+        }catch(e){
+
+            alert("Не удалось прочитать файл.");
+
+        }
+
+    };
+
+    reader.readAsText(file);
+
+    event.target.value="";
+
+}
+
+/* =========================
+   ESCAPE
+========================= */
+
+function escapeHTML(value){
+
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+/* =========================
+   START
+========================= */
+
+showHome();
+
+</script>
+
+</body>
+</html>
